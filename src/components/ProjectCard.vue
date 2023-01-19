@@ -6,7 +6,7 @@ export default {
     name: 'ProjectCard',
     data() {
         return {
-            projects: null,
+            projects: [],
             base_api_url: 'http://127.0.0.1:8000',
             loading: true,
             error: null,
@@ -19,7 +19,7 @@ export default {
                 .get(url)
                 .then(response => {
                     console.log(response.data.results);
-                    this.projects = response.data.results.data;
+                    this.projects = response.data.results;
                     this.loading = false;
 
                 })
@@ -38,6 +38,14 @@ export default {
             }
             return '/img/noimg.jpg'
         },
+        prevPage(url) {
+            console.log(url)
+            this.getProjects(url)
+        },
+        nextPage(url) {
+            console.log(url)
+            this.getProjects(url)
+        }
     },
     mounted() {
         this.getProjects(this.base_api_url + '/api/projects');
@@ -48,20 +56,20 @@ export default {
 <template>
     <div class="row row-cols-5 g-4">
 
-        <div class="col" v-for="project in projects">
+        <div class="col" v-for="project in projects.data">
             <div class="card project">
                 <img :src="getImagePath(project.thumb)" alt="img not available">
                 <div class="card-body">
                     <div class="card-title">
                         <strong>Titolo Progetto: </strong>
-                        <span v-if="projects">{{ project.title }}</span>
+                        <span v-if="projects.title">{{ project.title }}</span>
                         <span v-else> no title </span>
                     </div>
 
                     <div class="card-title">
                         <strong>Linguaggio: </strong>
-                        <span v-if="projects">{{ project.language }}</span>
-                        <span v-else>no lanaguge</span>
+                        <span v-if="projects.language">{{ project.language }}</span>
+                        <span v-else>no language</span>
                     </div>
                     <div class="type">
                         <strong>Type: </strong>
@@ -85,7 +93,25 @@ export default {
             </div>
         </div>
     </div>
+    <nav aria-label="Page navigation" class="d-flex justify-content-center pt-5">
+        <ul class="pagination">
+            <li class="page-item" v-if="projects.prev_page_url" @click="prevPage(projects.prev_page_url)">
+                <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{
+                projects.current_page
+            }}</a>
+            </li>
 
+            <li class="page-item" v-if="projects.next_page_url" @click="nextPage(projects.next_page_url)">
+                <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <style lang="scss" scoped>
