@@ -72,9 +72,9 @@ export default {
                     </div>
                     <div class="technologies">
                         <strong>Technologies: </strong>
-                        <template v-if="project.technologies.lenght > 0">
+                        <template v-if="project.technologies.length > 0">
                             <span v-for="technology in project.technologies">
-                                {{ technology.name }}
+                                # {{ technology.name }}
                             </span>
                         </template>
                         <template v-else>
