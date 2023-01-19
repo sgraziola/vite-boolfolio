@@ -62,27 +62,27 @@ export default {
                 <div class="card-body">
                     <div class="card-title">
                         <strong>Titolo Progetto: </strong>
-                        <span v-if="projects.title">{{ project.title }}</span>
+                        <span v-if="project.title">{{ project.title }}</span>
                         <span v-else> no title </span>
                     </div>
 
                     <div class="card-title">
                         <strong>Linguaggio: </strong>
-                        <span v-if="projects.language">{{ project.language }}</span>
+                        <span v-if="project.language">{{ project.language }}</span>
                         <span v-else>no language</span>
                     </div>
-                    <div class="type">
+                    <div class="card-title">
                         <strong>Type: </strong>
                         <span v-if="project.type">
                             {{ project.type.name }}
                         </span>
                         <span v-else>No type selected</span>
                     </div>
-                    <div class="technologies">
+                    <div class="card-title">
                         <strong>Technologies: </strong>
                         <template v-if="project.technologies.length > 0">
                             <span v-for="technology in project.technologies">
-                                # {{ technology.name }}
+                                #{{ technology.name }}
                             </span>
                         </template>
                         <template v-else>
@@ -118,8 +118,8 @@ export default {
 .col {
     img {
         height: inherit;
-        object-fit: cover;
-        border-radius: 0.375rem;
+        object-fit: scale-down;
+        //border-radius: 0.375rem;
     }
 
     .project {
