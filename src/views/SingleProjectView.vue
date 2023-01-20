@@ -4,7 +4,7 @@ export default {
     name: 'SingleProjectView',
     data() {
         return {
-            post: null,
+            project: null,
             loading: true,
             api_base_url: 'http://127.0.0.1:8000'
         }
@@ -14,7 +14,7 @@ export default {
         axios.get(url)
             .then(response => {
                 if (response.data.success) {
-                    this.post = response.data.results
+                    this.project = response.data.results
                     this.loading = false
                 } else {
                     /* error404  (metodo this.$router.push) */
@@ -38,6 +38,24 @@ export default {
             </h2>
             <div class="content">
                 {{ project.language }}
+            </div>
+            <div class="card-title">
+                <strong>Type: </strong>
+                <span v-if="project.type">
+                    {{ project.type.name }}
+                </span>
+                <span v-else>No type selected</span>
+            </div>
+            <div class="card-title">
+                <strong>Technologies: </strong>
+                <template v-if="project.technologies.length > 0">
+                    <span v-for="technology in project.technologies">
+                        #{{ technology.name }}
+                    </span>
+                </template>
+                <template v-else>
+                    <span>No technologies.</span>
+                </template>
             </div>
         </div>
     </div>
