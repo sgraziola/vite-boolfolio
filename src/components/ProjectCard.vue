@@ -54,64 +54,88 @@ export default {
 </script>
 
 <template>
-    <div class="row row-cols-5 g-4">
+    <section class="vue-home">
+        <div class="container">
+            <h1>Projects</h1>
+            <template v-if="projects && !loading">
+                <div class="row row-cols-5 g-4">
 
-        <div class="col" v-for="project in projects.data">
-            <div class="card project">
-                <img :src="getImagePath(project.thumb)" alt="img not available">
-                <div class="card-body">
-                    <div class="card-title">
-                        <strong>Titolo Progetto: </strong>
-                        <span v-if="project.title">{{ project.title }}</span>
-                        <span v-else> no title </span>
-                    </div>
+                    <div class="col" v-for="project in projects.data">
+                        <div class="card project">
+                            <img :src="getImagePath(project.thumb)" alt="img not available">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <strong>Titolo Progetto: </strong>
+                                    <span v-if="project.title">{{ project.title }}</span>
+                                    <span v-else> no title </span>
+                                </div>
 
-                    <div class="card-title">
-                        <strong>Linguaggio: </strong>
-                        <span v-if="project.language">{{ project.language }}</span>
-                        <span v-else>no language</span>
-                    </div>
-                    <div class="card-title">
-                        <strong>Type: </strong>
-                        <span v-if="project.type">
-                            {{ project.type.name }}
-                        </span>
-                        <span v-else>No type selected</span>
-                    </div>
-                    <div class="card-title">
-                        <strong>Technologies: </strong>
-                        <template v-if="project.technologies.length > 0">
-                            <span v-for="technology in project.technologies">
-                                #{{ technology.name }}
-                            </span>
-                        </template>
-                        <template v-else>
-                            <span>No technologies.</span>
-                        </template>
+                                <div class="card-title">
+                                    <strong>Linguaggio: </strong>
+                                    <span v-if="project.language">{{ project.language }}</span>
+                                    <span v-else>no language</span>
+                                </div>
+                                <div class="card-title">
+                                    <strong>Type: </strong>
+                                    <span v-if="project.type">
+                                        {{ project.type.name }}
+                                    </span>
+                                    <span v-else>No type selected</span>
+                                </div>
+                                <div class="card-title">
+                                    <strong>Technologies: </strong>
+                                    <template v-if="project.technologies.length > 0">
+                                        <span v-for="technology in project.technologies">
+                                            #{{ technology.name }}
+                                        </span>
+                                    </template>
+                                    <template v-else>
+                                        <span>No technologies.</span>
+                                    </template>
+
+                                </div>
+                                <router-link :to="{ name: 'single-project', params: { slug: project.slug } }">Read
+                                    More</router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <nav aria-label="Page navigation" class="d-flex justify-content-center pt-5">
+                    <ul class="pagination">
+                        <li class="page-item" v-if="projects.prev_page_url" @click="prevPage(projects.prev_page_url)">
+                            <a class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{
+                            projects.current_page
+                        }}</a>
+                        </li>
+
+                        <li class="page-item" v-if="projects.next_page_url" @click="nextPage(projects.next_page_url)">
+                            <a class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </template>
+            <template v-else-if="loading">
+                <div class="loading">
+                    Loading ...
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                        <path
+                            d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+                    </svg>
+                </div>
+            </template>
+            <div v-else>
+                <p> No projects here </p>
             </div>
         </div>
-    </div>
-    <nav aria-label="Page navigation" class="d-flex justify-content-center pt-5">
-        <ul class="pagination">
-            <li class="page-item" v-if="projects.prev_page_url" @click="prevPage(projects.prev_page_url)">
-                <a class="page-link" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{
-                projects.current_page
-            }}</a>
-            </li>
-
-            <li class="page-item" v-if="projects.next_page_url" @click="nextPage(projects.next_page_url)">
-                <a class="page-link" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    </section>
 </template>
 
 <style lang="scss" scoped>

@@ -1,21 +1,17 @@
 <script>
-import ProjectCard from './components/ProjectCard.vue'
+import AppNav from './components/AppNav.vue';
+
 export default {
     components: {
-        ProjectCard,
+        AppNav,
     },
 
 }
 </script>
 
 <template>
-    <section class="vue-home">
-        <div class="container">
-            <h1>Projects</h1>
-
-            <ProjectCard />
-        </div>
-    </section>
+    <AppNav />
+    <router-view></router-view>
 </template>
 
 <style lang="scss">
