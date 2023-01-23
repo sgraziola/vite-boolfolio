@@ -17,7 +17,8 @@ export default {
                     this.project = response.data.results
                     this.loading = false
                 } else {
-                    /* error404  (metodo this.$router.push) */
+                    /* error404 */
+                    this.$router.push({ name: 'not-found' })
                 }
 
             }).catch(error => {
@@ -31,7 +32,9 @@ export default {
 <template>
     <h1></h1>
     <div class="single-project" v-if="project">
-        <img class="img-fluid w-100" :src="api_base_url + '/storage/' + project.thumb" :alt="project.title">
+        <img v-if="project.thumb" class="img-fluid w-100" :src="api_base_url + '/storage/' + project.thumb"
+            :alt="project.title">
+        <img v-else src="/img/noimg.jpg" alt="">
         <div class="container">
             <h2>
                 {{ project.title }}

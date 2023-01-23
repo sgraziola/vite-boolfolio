@@ -1,14 +1,14 @@
 <script>
-import ProjectCard from '../components/ProjectCard.vue';
+import ProjectList from '../components/ProjectList.vue';
 export default {
     name: 'ProjectView',
-    components: { ProjectCard },
+    components: { ProjectList },
 
 }
 </script>
 
 <template>
-    <ProjectCard />
+    <ProjectList />
 
 </template>
 
