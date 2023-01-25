@@ -37,7 +37,7 @@ export default {
                     this.email = '';
                     this.message = '';
                 } else {
-                    this.errors = response.data.success;
+                    this.errors = response.data.errors;
                 }
                 this.loading = false;
             });
@@ -57,8 +57,14 @@ export default {
         <div v-if="success" class="alert alert-success text-start" role="alert">
             Messaggio inviato con successo!
         </div>
-        <div v-else class="alert alert-danger text-start" role="alert" v-for="(error) in errors">
-            {{ error.name }}
+        <div v-else class="alert alert-danger text-start" role="alert">
+
+            <ul>
+                <li v-for="(error) in errors.name"> {{ error }}</li>
+                <li v-for="(error) in errors.email"> {{ error }}</li>
+                <li v-for="(error) in errors.message"> {{ error }}</li>
+
+            </ul>
         </div>
         <form @submit.prevent="sendForm()">
             <div class="mb-3">
@@ -67,6 +73,11 @@ export default {
                     aria-describedby="fullNameHelper" v-model="name">
                 <small id="fullNameHelper" class="text-muted">Add your full name</small>
             </div>
+            <p v-for="(error) in errors.name">
+                {{ error }}
+            </p>
+
+
             <div class="mb-3">
                 <label for="" class="form-label">Email</label>
                 <input type="email" name="email" id="email" class="form-control" placeholder="mario.rossi@example.com"
